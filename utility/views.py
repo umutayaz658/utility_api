@@ -1,17 +1,15 @@
-import hashlib
-
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.utils import timezone
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
 from .models import CustomURL
-from .serializers import URLSerializer
+from .serializers import URLSerializer, URLDetailSerializer
 import random
 import string
-
+from rest_framework.decorators import api_view
+import json
+from django.utils import timezone
 
 # URL-SHORTENER VİEWS: STARTS.
 
@@ -20,47 +18,107 @@ def generate_short_url():
     return ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
 
-class URLListCreateView(generics.ListCreateAPIView):
-    queryset = CustomURL.objects.all()
-    serializer_class = URLSerializer
+@api_view(['POST'])
+def url_create_view(request):
+    serializer = URLSerializer(data=request.data)
 
-    def perform_create(self, serializer):
+    if serializer.is_valid():
+
         short_url = generate_short_url()
-        while CustomURL.objects.filter(short_url=short_url).exists():
-            short_url = generate_short_url()
-        serializer.save(short_url=short_url, created_at=timezone.now())
+
+        custom_url = CustomURL.objects.create(
+            long_url=serializer.validated_data['long_url'],
+            validity_period=serializer.validated_data['validity_period'],
+            created_by=serializer.validated_data['created_by'],
+            is_active=serializer.validated_data['is_active'],
+            one_time_only=serializer.validated_data['one_time_only'],
+            password=serializer.validated_data['password'],
+            short_url=short_url
+        )
+
+        custom_url.save()
+
+        return Response({'short_url': short_url}, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class URLDetailView(generics.RetrieveUpdateDestroyAPIView):
+class URLDetailView(generics.ListAPIView):
     queryset = CustomURL.objects.all()
-    serializer_class = URLSerializer
+    serializer_class = URLDetailSerializer
 
 
-class GetLongURLView(APIView):
-    def get(self, request):
-        short_url = request.query_params.get('short_url')
-        password = request.query_params.get('password')
+@api_view(['POST'])
+def get_long_url(request):
+    try:
+        data = request.data
+        short_url = data.get('short_url')
+        password = data.get('password')
 
         if not short_url:
-            return Response({"error": "short_url parameter is required."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'short_url is required'}, status=400)
 
         try:
-            # URL'yi short_url ile bul
             custom_url = CustomURL.objects.get(short_url=short_url)
         except CustomURL.DoesNotExist:
-            return Response({"error": "URL with the given short_url does not exist."},
-                                status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'URL not found'}, status=404)
 
-        # Şifre varsa, şifreyi kontrol et
+        if not custom_url.is_active:
+            return Response({'error': 'URL is expired or inactive'}, status=404)
+
         if custom_url.password:
             if not password:
-                return Response({"error": "Password is required for this URL."}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Password is required'}, status=400)
 
             if not check_password(password, custom_url.password):
-                return Response({"error": "Invalid password."}, status=status.HTTP_403_FORBIDDEN)
+                return Response({'error': 'Invalid password'}, status=403)
 
-        # Şifre kontrolü başarıyla geçtiyse veya şifre gerekli değilse URL'yi döndür
-        return Response({"long_url": custom_url.long_url}, status=status.HTTP_200_OK)
+        return Response({'long_url': custom_url.long_url})
+
+    except json.JSONDecodeError:
+        return Response({'error': 'Invalid JSON'}, status=400)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+
+@api_view(['PUT'])
+def update_url_active_status(request, short_url):
+    try:
+        custom_url = CustomURL.objects.get(short_url=short_url)
+    except CustomURL.DoesNotExist:
+        return Response({'error': 'URL not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    is_active = request.data.get('is_active', None)
+
+    if is_active is None:
+        return Response({'error': '"is_active" field is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    custom_url.is_active = is_active
+    custom_url.save()
+
+    return Response({'message': 'URL status updated successfully'}, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
+def update_validity_period(request, short_url):
+    custom_url = get_object_or_404(CustomURL, short_url=short_url)
+    validity_period = request.data.get('validity_period', None)
+
+    if validity_period is None:
+        return Response({'error': '"validity_period" field is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        new_validity_period = timezone.datetime.fromisoformat(validity_period.replace('Z', '+00:00'))
+    except ValueError:
+        return Response({'error': 'Invalid date format for "validity_period"'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if new_validity_period < timezone.now():
+        return Response({'error': 'Validity period cannot be in the past.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    custom_url.validity_period = new_validity_period
+    custom_url.save()
+
+    return Response({'message': 'Validity period updated successfully'}, status=status.HTTP_200_OK)
 
 
 def redirect_to_long_url(request, short_url):
@@ -76,7 +134,8 @@ def redirect_to_long_url(request, short_url):
                     custom_url.save()
                 return redirect(custom_url.long_url)
             else:
-                return render(request, 'utility/security.html', context={"msg": "Invalid Password", "short_url": short_url})
+                return render(request, 'utility/security.html', context={"msg": "Invalid Password",
+                                                                         "short_url": short_url})
         return render(request, 'utility/security.html', context={"msg": "", "short_url": short_url})
     if custom_url.one_time_only:
         custom_url.is_active = False
@@ -86,9 +145,16 @@ def redirect_to_long_url(request, short_url):
 # URL-SHORTENER VİEWS: ENDS
 
 
-# QR-CODE VİEWS: STARTS
+# QUICK NOTE VİEWS: STARTS
 
 
+# class QuickNoteViewSet(viewsets.ModelViewSet):
+#     queryset = QuickNote.objects.all()
+#     serializer_class = QuickNoteSerializer
+#     permission_classes = [IsAuthenticated]
+#
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request.user, created_by=self.request.user)
 
-# QR-CODE VİEWS: ENDS
 
+# QUICK NOTE VİEWS: ENDS

@@ -1,10 +1,9 @@
 ### Create a New URL
-POST http://localhost:8000/api/urls/
+POST http://localhost:8000/api/create_short_url/
 Content-Type: application/json
 
 {
-  "short_url": "bbkaaa",
-  "long_url": "https://sancaktepe.bel.tr",
+  "long_url": "https://www.google.com",
   "validity_period": "2024-09-30T23:59:59Z",
   "created_by": 1,
   "is_active": true,
@@ -12,30 +11,32 @@ Content-Type: application/json
   "password": ""
 }
 
-### Get Long URL
-GET http://localhost:8000/api/get_long_url/?short_url=OY4Z34&password=123
-Accept: application/json
+### Give Long URL
+POST http://localhost:8000/api/get_long_url/
+Content-Type: application/json
 
+{
+  "short_url": "MUI348",
+  "password": "123"
+}
+
+### Update URL Activity
+PUT http://localhost:8000/api/update_activity/D4Q2Wm/
+Content-Type: application/json
+
+{
+  "is_active": true
+}
+
+### Update URL Validity Period
+PUT http://localhost:8000/api/update_validity/D4Q2Wm/
+Content-Type: application/json
+
+{
+  "validity_period": "2024-09-01T12:00:00Z"
+}
 
 ### List All URLs
 GET http://localhost:8000/api/urls/
 Accept: application/json
 
-
-### Update URL
-PUT http://localhost:8000/api/urls/2/
-Content-Type: application/json
-
-{
-  "short_url": "abssss",
-  "long_url": "https://www.google.com",
-  "validity_period": "2024-12-31T23:59:59Z",
-  "created_by": 1,
-  "is_active": false,
-  "one_time_only": true,
-  "password": "password"
-}
-
-### Delete URL
-DELETE http://localhost:8000/api/urls/2/
-Accept: application/json
