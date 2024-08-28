@@ -3,8 +3,8 @@ POST http://localhost:8000/api/urls/
 Content-Type: application/json
 
 {
-  "short_url": "1aaaaa",
-  "long_url": "https://www.google.com",
+  "short_url": "bbkaaa",
+  "long_url": "https://sancaktepe.bel.tr",
   "validity_period": "2024-09-30T23:59:59Z",
   "created_by": 1,
   "is_active": true,
@@ -12,13 +12,15 @@ Content-Type: application/json
   "password": ""
 }
 
+### Get Long URL
+GET http://localhost:8000/api/get_long_url/?short_url=OY4Z34&password=123
+Accept: application/json
+
+
 ### List All URLs
 GET http://localhost:8000/api/urls/
 Accept: application/json
 
-### Get URL Details
-GET http://localhost:8000/api/urls/2/
-Accept: application/json
 
 ### Update URL
 PUT http://localhost:8000/api/urls/2/

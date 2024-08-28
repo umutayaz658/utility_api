@@ -16,6 +16,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
+RUN ln -sf /usr/share/zoneinfo/Etc/GMT-3 /etc/localtime && echo "Etc/GMT-3" > /etc/timezone
 WORKDIR /app
 
 # Create a non-privileged user that the app will run under.
