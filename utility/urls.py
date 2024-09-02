@@ -1,6 +1,5 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
-from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     path('api/create_short_url/', views.url_create_view, name='create_short_url'),

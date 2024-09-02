@@ -9,7 +9,7 @@ aes_util = AESUtil()
 
 class CustomURL(models.Model):
     short_url = models.CharField(max_length=255, unique=True)
-    long_url = models.URLField(max_length=255)
+    long_url = models.URLField(max_length=2048)
     created_at = models.DateTimeField(default=timezone.now)
     validity_period = models.DateTimeField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
