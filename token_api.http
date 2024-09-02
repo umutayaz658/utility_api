@@ -3,8 +3,8 @@ POST http://localhost:8000/api/token/
 Content-Type: application/json
 
 {
-  "username": "monster",
-  "password": "1903baba"
+  "username": "user",
+  "password": "password"
 }
 
 

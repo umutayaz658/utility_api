@@ -53,6 +53,11 @@ def generate_short_url():
 
 @api_view(['POST'])
 def url_create_view(request):
+
+    if not request.user.is_authenticated:
+        return Response({'detail': 'Authentication credentials were not provided.'},
+                        status=status.HTTP_401_UNAUTHORIZED)
+
     serializer = URLSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -62,7 +67,7 @@ def url_create_view(request):
         custom_url = CustomURL.objects.create(
             long_url=serializer.validated_data['long_url'],
             validity_period=serializer.validated_data['validity_period'],
-            created_by=serializer.validated_data['created_by'],
+            created_by=request.user,
             is_active=serializer.validated_data['is_active'],
             one_time_only=serializer.validated_data['one_time_only'],
             password=serializer.validated_data['password'],
@@ -77,12 +82,18 @@ def url_create_view(request):
 
 
 class URLDetailView(generics.ListAPIView):
-    queryset = CustomURL.objects.all()
     serializer_class = URLDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return CustomURL.objects.filter(created_by=self.request.user)
 
 
 @api_view(['POST'])
 def get_long_url(request):
+    if not request.user.is_authenticated:
+        return Response({'detail': 'Authentication credentials were not provided.'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     try:
         data = request.data
         short_url = data.get('short_url')
@@ -116,6 +127,9 @@ def get_long_url(request):
 
 @api_view(['PUT'])
 def update_url_active_status(request, short_url):
+    if not request.user.is_authenticated:
+        return Response({'detail': 'Authentication credentials were not provided.'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     try:
         custom_url = CustomURL.objects.get(short_url=short_url)
     except CustomURL.DoesNotExist:
@@ -134,6 +148,9 @@ def update_url_active_status(request, short_url):
 
 @api_view(['PUT'])
 def update_validity_period(request, short_url):
+    if not request.user.is_authenticated:
+        return Response({'detail': 'Authentication credentials were not provided.'},
+                        status=status.HTTP_401_UNAUTHORIZED)
     custom_url = get_object_or_404(CustomURL, short_url=short_url)
     validity_period = request.data.get('validity_period', None)
 

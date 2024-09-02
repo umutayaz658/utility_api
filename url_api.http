@@ -1,11 +1,11 @@
 ### Create a New URL
 POST http://localhost:8000/api/create_short_url/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3MTkwLCJpYXQiOjE3MjUyNzM1OTAsImp0aSI6ImRmYjY4ZDBkZGE1MjRlNDhiOWI4ZDU5YTAxYmE0ZTQ5IiwidXNlcl9pZCI6Mn0.fe5flHkniqXIUAm16jVONYwmb-JIAPS7s3v5DOckEQI
 
 {
   "long_url": "https://www.google.com",
   "validity_period": "2024-09-30T23:59:59Z",
-  "created_by": 1,
   "is_active": true,
   "one_time_only": false,
   "password": ""
@@ -14,29 +14,34 @@ Content-Type: application/json
 ### Give Long URL
 POST http://localhost:8000/api/get_long_url/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
 {
-  "short_url": "LQ1gJ0",
-  "password": "123"
+  "short_url": "RTfq0F",
+  "password": ""
 }
 
 ### Update URL Activity
-PUT http://localhost:8000/api/update_activity/D4Q2Wm/
+PUT http://localhost:8000/api/update_activity/sDZlCQ/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
 {
-  "is_active": false
+  "is_active": true
 }
 
 ### Update URL Validity Period
-PUT http://localhost:8000/api/update_validity/D4Q2Wm/
+PUT http://localhost:8000/api/update_validity/sDZlCQ/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
 {
-  "validity_period": "2024-09-01T12:00:00Z"
+  "validity_period": "2024-09-03T12:00:00Z"
 }
 
 ### List All URLs
 GET http://localhost:8000/api/urls/
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
+
 

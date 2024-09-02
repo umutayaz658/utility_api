@@ -10,7 +10,7 @@ aes_util = AESUtil()
 class URLSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomURL
-        fields = ['long_url', 'validity_period', 'created_by', 'is_active', 'one_time_only', 'password']
+        fields = ['long_url', 'validity_period', 'is_active', 'one_time_only', 'password']
 
 
 class URLDetailSerializer(serializers.ModelSerializer):
