@@ -1,15 +1,48 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from .models import CustomURL
-from .serializers import URLSerializer, URLDetailSerializer
+from .models import CustomURL, QuickNote
+from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
+    CustomTokenRefreshSerializer
 import random
 import string
 from rest_framework.decorators import api_view
 import json
 from django.utils import timezone
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+# TOKEN VİEWS: STARTS
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+
+class CustomTokenRefreshView(TokenRefreshView):
+    serializer_class = CustomTokenRefreshSerializer
+
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=205)
+        except Exception as e:
+            return Response({'error': str(e)}, status=400)
+
+# TOKEN VİEWS: ENDS
+
 
 # URL-SHORTENER VİEWS: STARTS.
 
@@ -142,19 +175,34 @@ def redirect_to_long_url(request, short_url):
         custom_url.save()
     return redirect(custom_url.long_url)
 
+
 # URL-SHORTENER VİEWS: ENDS
 
 
 # QUICK NOTE VİEWS: STARTS
 
 
-# class QuickNoteViewSet(viewsets.ModelViewSet):
-#     queryset = QuickNote.objects.all()
-#     serializer_class = QuickNoteSerializer
-#     permission_classes = [IsAuthenticated]
-#
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user, created_by=self.request.user)
+class QuickNoteCreateView(generics.CreateAPIView):
+    serializer_class = QuickNoteSerializer
+    permission_classes = [IsAuthenticated]
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
+
+class UserSentNotesView(generics.ListAPIView):
+    serializer_class = QuickNoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return QuickNote.objects.filter(created_by=self.request.user)
+
+
+class UserReceivedNotesView(generics.ListAPIView):
+    serializer_class = QuickNoteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return QuickNote.objects.filter(send_to=self.request.user)
 
 # QUICK NOTE VİEWS: ENDS

@@ -16,7 +16,7 @@ POST http://localhost:8000/api/get_long_url/
 Content-Type: application/json
 
 {
-  "short_url": "MUI348",
+  "short_url": "LQ1gJ0",
   "password": "123"
 }
 
@@ -25,7 +25,7 @@ PUT http://localhost:8000/api/update_activity/D4Q2Wm/
 Content-Type: application/json
 
 {
-  "is_active": true
+  "is_active": false
 }
 
 ### Update URL Validity Period

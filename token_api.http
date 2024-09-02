@@ -1,0 +1,26 @@
+### Obtain Token
+POST http://localhost:8000/api/token/
+Content-Type: application/json
+
+{
+  "username": "monster",
+  "password": "1903baba"
+}
+
+
+### Refresh Token
+POST http://localhost:8000/api/token/refresh/
+Content-Type: application/json
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcyNTM0NDIxNSwiaWF0IjoxNzI1MjU3ODE1LCJqdGkiOiI3MmEyODY1MjI5ZDA0OTA4YTQ2YWFjY2RlYmVkODE0MiIsInVzZXJfaWQiOjF9.zWETjWXXcZI4Fk1oOe9aqwsM4R1-1JLKKk54_CsxdsU"
+}
+
+### Logout
+POST http://localhost:8000/api/logout/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjYxNDE1LCJpYXQiOjE3MjUyNTc4MTUsImp0aSI6IjlmZGYzMGU4ODUyMTQxMWFiZTlkNjJjNWRkZGFkOTY5IiwidXNlcl9pZCI6MX0.rJsl9BcCa1lP5B0QRtC1pxaqWHmtfer73OD3XZp7qVw
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcyNTM0NDIxNSwiaWF0IjoxNzI1MjU3ODE1LCJqdGkiOiI3MmEyODY1MjI5ZDA0OTA4YTQ2YWFjY2RlYmVkODE0MiIsInVzZXJfaWQiOjF9.zWETjWXXcZI4Fk1oOe9aqwsM4R1-1JLKKk54_CsxdsU"
+}

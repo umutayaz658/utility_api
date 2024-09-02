@@ -2,7 +2,9 @@ from django.contrib.auth.hashers import make_password
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db import models
-from cryptography.fernet import Fernet
+from .utils import AESUtil
+
+aes_util = AESUtil()
 
 
 class CustomURL(models.Model):
@@ -28,29 +30,25 @@ class CustomURL(models.Model):
         return timezone.now() > self.validity_period
 
 
-# KEY = Fernet.generate_key()
-# cipher_suite = Fernet(KEY)
-#
-#
-# class QuickNoteManager(models.Manager):
-#     def create_note(self, created_by, text, send_to=None):
-#         encrypted_text = cipher_suite.encrypt(text.encode())
-#         return self.create(
-#             created_at=timezone.now(),
-#             created_by=created_by,
-#             send_to=send_to,
-#             text=encrypted_text
-#         )
-#
-#     def get_decrypted_text(self, note):
-#         return cipher_suite.decrypt(note.text.encode()).decode()
+class QuickNoteManager(models.Manager):
+    def create_note(self, created_by, text, send_to=None):
+        iv, encrypted_text = aes_util.encrypt(text)
+        return self.create(
+            created_at=timezone.now(),
+            created_by=created_by,
+            send_to=send_to,
+            text=f"{iv}:{encrypted_text}"
+        )
+
+    def get_decrypted_text(self, note):
+        iv, encrypted_text = note.text.split(':')
+        return aes_util.decrypt(iv, encrypted_text)
 
 
-# class QuickNote(models.Model):
-#     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     send_to = models.ForeignKey(User, related_name='received_notes', null=True, blank=True, on_delete=models.SET_NULL)
-#     text = models.TextField()
-#
-#     objects = QuickNoteManager()
+class QuickNote(models.Model):
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    send_to = models.ForeignKey(User, related_name='received_notes', null=True, blank=True, on_delete=models.SET_NULL)
+    text = models.TextField()
 
+    objects = QuickNoteManager()

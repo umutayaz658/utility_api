@@ -3,4 +3,5 @@ Django~=5.1
 psycopg2-binary
 djangorestframework
 postgres
-cryptography
+pycryptodome
+djangorestframework-simplejwt
