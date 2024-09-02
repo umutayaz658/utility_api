@@ -7,6 +7,14 @@ Content-Type: application/json
   "password": "12345678Umut!"
 }
 
+### Obtain Token Local
+POST http://localhost:8000/api/token/
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "password"
+}
 
 ### Refresh Token
 POST http://167.71.39.190:8000/api/token/refresh/
