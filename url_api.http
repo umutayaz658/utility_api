@@ -1,5 +1,5 @@
 ### Create a New URL
-POST http://localhost:8000/api/create_short_url/
+POST http://167.71.39.190:8000/api/create_short_url/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3MTkwLCJpYXQiOjE3MjUyNzM1OTAsImp0aSI6ImRmYjY4ZDBkZGE1MjRlNDhiOWI4ZDU5YTAxYmE0ZTQ5IiwidXNlcl9pZCI6Mn0.fe5flHkniqXIUAm16jVONYwmb-JIAPS7s3v5DOckEQI
 
@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ### Give Long URL
-POST http://localhost:8000/api/get_long_url/
+POST http://167.71.39.190:8000/api/get_long_url/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
@@ -22,7 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ### Update URL Activity
-PUT http://localhost:8000/api/update_activity/sDZlCQ/
+PUT http://167.71.39.190:8000/api/update_activity/sDZlCQ/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
@@ -31,7 +31,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ### Update URL Validity Period
-PUT http://localhost:8000/api/update_validity/sDZlCQ/
+PUT http://167.71.39.190:8000/api/update_validity/sDZlCQ/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
@@ -40,7 +40,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ### List All URLs
-GET http://localhost:8000/api/urls/
+GET http://167.71.39.190:8000/api/urls/
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
 
