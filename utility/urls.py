@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/logout/', views.LogoutView.as_view(), name='auth_logout'),
 
     path('api/qr-code/', views.QRCodeAPIView.as_view(), name='qr_code_api'),
+    path('api/download-qr-code/<str:filename>/', views.download_qr_code, name='download_qr_code'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

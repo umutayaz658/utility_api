@@ -1,5 +1,8 @@
 ### Create QR Code
 POST http://localhost:8000/api/qr-code/
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-data=www.google.com
+{
+  "data": "www.youtube.com",
+  "download_link": true
+}

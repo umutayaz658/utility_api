@@ -17,6 +17,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http import HttpResponse
 from .utils import generate_qr_code
+import os
+import uuid
 
 
 # TOKEN VİEWS: STARTS
@@ -239,13 +241,37 @@ class QRCodeAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data.get('data', '')
+        download_link = request.data.get('download_link', False)
+
         if not data:
             return Response({"error": "No data provided"}, status=400)
 
         qr_code_image = generate_qr_code(data)
 
-        response = HttpResponse(qr_code_image, content_type='image/png')
-        response['Content-Disposition'] = 'inline; filename="qrcode.png"'
+        if download_link:
+            qr_code_filename = f"qr_code_{uuid.uuid4()}.png"
+            qr_code_path = os.path.join("media/qr_codes", qr_code_filename)
+
+            with open(qr_code_path, "wb") as qr_code_file:
+                qr_code_file.write(qr_code_image)
+
+            download_url = request.build_absolute_uri(f"/api/download-qr-code/{qr_code_filename}")
+            return Response({"download_url": download_url})
+        else:
+            response = HttpResponse(qr_code_image, content_type='image/png')
+            response['Content-Disposition'] = 'inline; filename="qrcode.png"'
+            return response
+
+
+def download_qr_code(request, filename):
+    file_path = os.path.join("media/qr_codes", filename)
+
+    if not os.path.exists(file_path):
+        return HttpResponse(status=404)
+
+    with open(file_path, "rb") as f:
+        response = HttpResponse(f.read(), content_type='image/png')
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
         return response
 
 

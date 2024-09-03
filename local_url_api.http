@@ -1,24 +1,24 @@
 ### Create a New URL
 POST http://localhost:8000/api/create_short_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MzQ3NDc2LCJpYXQiOjE3MjUzNDM4NzYsImp0aSI6Ijg1Y2UyOTIxMmMzMjRlN2FhMzk2ZDJlYmU3NTI3MDllIiwidXNlcl9pZCI6MX0.elXy8hwLVzxzXSS4pfEJj8-_utYJ-WuYU_bQI-YIo48
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mzk3MDE5LCJpYXQiOjE3MjUzOTM0MTksImp0aSI6IjA4YWQ1MTdkNDdhNjRkN2RiMjBmMDY2ZGFhN2QwZDAwIiwidXNlcl9pZCI6MX0.D_KZZv32omiaoTKeqJ1CY2nchAFrlLvlQ6X19wSZgmw
 
 {
-  "long_url": "www.google.com",
+  "long_url": "http://www.google.com",
   "validity_period": "2024-09-30T23:59:59Z",
   "is_active": true,
   "one_time_only": true,
-  "password": ""
+  "password": "123"
 }
 
 ### Give Long URL
 POST http://localhost:8000/api/get_long_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mjc3NzIyLCJpYXQiOjE3MjUyNzQxMjIsImp0aSI6IjYzMWFiN2I4MDliZjQwNzc5NGZlNzM1YWE1OWM5NTM0IiwidXNlcl9pZCI6MX0.e7TrqqN-0swanxY2nPpSGBB5nC2RlXN1syWqywchrgI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mzk3MDE5LCJpYXQiOjE3MjUzOTM0MTksImp0aSI6IjA4YWQ1MTdkNDdhNjRkN2RiMjBmMDY2ZGFhN2QwZDAwIiwidXNlcl9pZCI6MX0.D_KZZv32omiaoTKeqJ1CY2nchAFrlLvlQ6X19wSZgmw
 
 {
-  "short_url": "RTfq0F",
-  "password": ""
+  "short_url": "PQR8Kx",
+  "password": "123"
 }
 
 ### Update URL Activity
