@@ -2,6 +2,4 @@
 POST http://167.71.39.190:8000/api/qr-code/
 Content-Type: application/x-www-form-urlencoded
 
-{
-    "data": "https://example.com"
-}
+data=www.youtube.com
