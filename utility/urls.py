@@ -8,6 +8,7 @@ urlpatterns = [
     path('api/update_activity/<str:short_url>/', views.update_url_active_status, name='update_url_active_status'),
     path('api/update_validity/<str:short_url>/', views.update_validity_period, name='update_validity_period'),
     path('<str:short_url>/', views.redirect_to_long_url, name='redirect_to_long_url'),
+    path('url/expired/', views.link_expired, name='link_expired'),
     path('api/notes/', views.QuickNoteCreateView.as_view(), name='create_note'),
     path('api/notes/sent/', views.UserSentNotesView.as_view(), name='user-sent-notes'),
     path('api/notes/received/', views.UserReceivedNotesView.as_view(), name='user-received-notes'),

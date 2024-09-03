@@ -193,6 +193,10 @@ def redirect_to_long_url(request, short_url):
     return redirect(custom_url.long_url)
 
 
+def link_expired(request):
+    return render(request, 'utility/expired.html')
+
+
 # URL-SHORTENER VİEWS: ENDS
 
 

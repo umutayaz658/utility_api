@@ -3,8 +3,8 @@ POST http://167.71.39.190:8000/api/token/
 Content-Type: application/json
 
 {
-  "username": "umut",
-  "password": "12345678Umut!"
+  "username": "user",
+  "password": "1903baba"
 }
 
 ### Obtain Token Local

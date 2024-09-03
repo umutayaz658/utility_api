@@ -1,7 +1,7 @@
 ### Create a New URL
 POST http://167.71.39.190:8000/api/create_short_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjgyOTcxLCJpYXQiOjE3MjUyNzkzNzEsImp0aSI6ImU1MmJmMDRjY2E1OTRjYzk5ZjIyNjgwYWY5YmYyNjFjIiwidXNlcl9pZCI6Mn0.jqvEHnGu2DoSSD7cEGnfkPFItpnSWFCFYJTmuj4RHk8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjkwOTIzLCJpYXQiOjE3MjUyODczMjMsImp0aSI6ImM5MmQ4ZjFjOGY0NDQ2YmZiZmM5OWQ0MmZkZmE2ZTZmIiwidXNlcl9pZCI6MX0.3avvK_j_nsR2B51l4FheJkyv30ywPnh5Cqdy7fyVlgc
 
 {
   "long_url": "https://www.amazon.com.tr/Ev-Nermin-Yıldırım/dp/6051923993/ref=sr_1_1?__mk_tr_TR=ÅMÅŽÕÑ&crid=3VY2F4C4ZLF2U&dib=eyJ2IjoiMSJ9.b3aBOYWzKHzcmG3SsJQReL-CBYRtzemWkHNqWGU1XV6prG5LwQDbHgu37d8xBuA3W0LTqnsYRQdlV1f9W9ULf3OCyx7ilL4semjQc2s4mDuZ1WJKEdsr5cbv7keQLLjNgnZOwL4llt0iCWCtzyGCwz26ojmVbW_28SYVoGO-O_VCyhCBoQlzhse0sHhxq_M6BLuGSf32lips9814jsY6PsYUmNsV7dQu_eorFYJ-ABDfpTeXIEQEFocw7CrOn-xJ7uZKAPJBVHfGuNLG7t1CpZoRonxXThvN2thKcJ_-wOo.IF1VqS3La_rsrtqn-Zy1QWh2g-P9-l3yLGJXnr7PPV8&dib_tag=se&keywords=ev&qid=1725279674&sprefix=ev%2Caps%2C862&sr=8-1",
@@ -14,14 +14,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 ### Create a New URL
 POST http://localhost:8000/api/create_short_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjkwNDAwLCJpYXQiOjE3MjUyODY4MDAsImp0aSI6IjJjNjUxNmE0ODdjMDRkNDhiZmRjNTExY2QwZGZmZTE4IiwidXNlcl9pZCI6MX0.Wa89MkAnPW4FpjeoZMjBVyGieYAuXQJjIpOC65aImK4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MzQ3NDc2LCJpYXQiOjE3MjUzNDM4NzYsImp0aSI6Ijg1Y2UyOTIxMmMzMjRlN2FhMzk2ZDJlYmU3NTI3MDllIiwidXNlcl9pZCI6MX0.elXy8hwLVzxzXSS4pfEJj8-_utYJ-WuYU_bQI-YIo48
 
 {
-  "long_url": "https://www.amazon.com.tr/Ev-Nermin-Yıldırım/dp/6051923993/ref=sr_1_1?__mk_tr_TR=ÅMÅŽÕÑ&crid=3VY2F4C4ZLF2U&dib=eyJ2IjoiMSJ9.b3aBOYWzKHzcmG3SsJQReL-CBYRtzemWkHNqWGU1XV6prG5LwQDbHgu37d8xBuA3W0LTqnsYRQdlV1f9W9ULf3OCyx7ilL4semjQc2s4mDuZ1WJKEdsr5cbv7keQLLjNgnZOwL4llt0iCWCtzyGCwz26ojmVbW_28SYVoGO-O_VCyhCBoQlzhse0sHhxq_M6BLuGSf32lips9814jsY6PsYUmNsV7dQu_eorFYJ-ABDfpTeXIEQEFocw7CrOn-xJ7uZKAPJBVHfGuNLG7t1CpZoRonxXThvN2thKcJ_-wOo.IF1VqS3La_rsrtqn-Zy1QWh2g-P9-l3yLGJXnr7PPV8&dib_tag=se&keywords=ev&qid=1725279674&sprefix=ev%2Caps%2C862&sr=8-1",
+  "long_url": "www.google.com",
   "validity_period": "2024-09-30T23:59:59Z",
   "is_active": true,
   "one_time_only": true,
-  "password": "123"
+  "password": ""
 }
 
 ### Give Long URL
