@@ -4,6 +4,8 @@ from base64 import b64encode, b64decode
 import os
 import qrcode
 from io import BytesIO
+from django.core.files.base import ContentFile
+import re
 
 
 class AESUtil:
@@ -40,5 +42,10 @@ def generate_qr_code(data):
     buffer = BytesIO()
     img.save(buffer, format='PNG')
     buffer.seek(0)
+    file_name = re.sub(r'[^\w.-]', '_', data)[:50] + '.png'
+    from utility.models import QRCode
+    qr_code_instance, created = QRCode.objects.get_or_create(data=data)
+    qr_code_instance.image.save(file_name, ContentFile(buffer.getvalue()), save=True)
 
-    return buffer
+    return buffer.getvalue()
+

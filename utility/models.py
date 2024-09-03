@@ -52,3 +52,8 @@ class QuickNote(models.Model):
     text = models.TextField()
 
     objects = QuickNoteManager()
+
+
+class QRCode(models.Model):
+    data = models.CharField(max_length=255, unique=True)
+    image = models.ImageField(upload_to='qr_codes/')

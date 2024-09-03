@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('api/create_short_url/', views.url_create_view, name='create_short_url'),
@@ -19,6 +21,6 @@ urlpatterns = [
     path('api/logout/', views.LogoutView.as_view(), name='auth_logout'),
 
     path('api/qr-code/', views.QRCodeAPIView.as_view(), name='qr_code_api'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
