@@ -1,7 +1,0 @@
-### Create a QR Code
-POST http://localhost:8000/api/qrcode/
-Content-Type: application/json
-
-{
-  "url": "https://www.google.com"
-}

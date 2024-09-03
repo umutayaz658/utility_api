@@ -1,14 +1,14 @@
 ### Obtain Token
-POST http://167.71.39.190:8000/api/token/
+POST http://localhost:8000/api/token/
 Content-Type: application/json
 
 {
   "username": "user",
-  "password": "1903baba"
+  "password": "password"
 }
 
 ### Refresh Token
-POST http://167.71.39.190:8000/api/token/refresh/
+POST http://localhost:8000/api/token/refresh/
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### Logout
-POST http://167.71.39.190:8000/api/logout/
+POST http://localhost:8000/api/logout/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjYxNDE1LCJpYXQiOjE3MjUyNTc4MTUsImp0aSI6IjlmZGYzMGU4ODUyMTQxMWFiZTlkNjJjNWRkZGFkOTY5IiwidXNlcl9pZCI6MX0.rJsl9BcCa1lP5B0QRtC1pxaqWHmtfer73OD3XZp7qVw
 

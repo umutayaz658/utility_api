@@ -11,19 +11,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
   "password": "123"
 }
 
-### Create a New URL
-POST http://localhost:8000/api/create_short_url/
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MzQ3NDc2LCJpYXQiOjE3MjUzNDM4NzYsImp0aSI6Ijg1Y2UyOTIxMmMzMjRlN2FhMzk2ZDJlYmU3NTI3MDllIiwidXNlcl9pZCI6MX0.elXy8hwLVzxzXSS4pfEJj8-_utYJ-WuYU_bQI-YIo48
-
-{
-  "long_url": "www.google.com",
-  "validity_period": "2024-09-30T23:59:59Z",
-  "is_active": true,
-  "one_time_only": true,
-  "password": ""
-}
-
 ### Give Long URL
 POST http://167.71.39.190:8000/api/get_long_url/
 Content-Type: application/json

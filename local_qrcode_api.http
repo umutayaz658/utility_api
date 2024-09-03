@@ -1,0 +1,6 @@
+### QR Kod Oluşturma İsteği
+POST http://localhost:8000/api/qr-code/
+Content-Type: application/x-www-form-urlencoded
+
+
+data=https://github.com/umutayaz658/utility

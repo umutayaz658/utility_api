@@ -1,0 +1,21 @@
+###Create a NOTE
+POST http://localhost:8000/api/notes/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjcwOTcyLCJpYXQiOjE3MjUyNjczNzIsImp0aSI6IjE2OGZmYzFlNzM5NzQ5MmJiZjQ1Y2NkMjg1YjM4MmNkIiwidXNlcl9pZCI6Mn0.6611IPplKirxdX-S4Mbk2AnlAn1crLimgIzLt_KpdSE
+
+{
+  "text": "Hello, It's me.",
+  "send_to": "user"
+}
+
+
+###View Sent Notes
+GET http://localhost:8000/api/notes/sent/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjcwODE3LCJpYXQiOjE3MjUyNjcyMTcsImp0aSI6IjY4YzQ0NmVmODI5ODQwZTI4MWVkNTVjODEwNjliOWE3IiwidXNlcl9pZCI6MX0.9RQn5AMXg-YPbMGgsvBFCDku5tp3b1e4ThQVmhZlTY4
+Accept: application/json
+
+
+###View Received Notes
+GET http://localhost:8000/api/notes/received/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjcwODE3LCJpYXQiOjE3MjUyNjcyMTcsImp0aSI6IjY4YzQ0NmVmODI5ODQwZTI4MWVkNTVjODEwNjliOWE3IiwidXNlcl9pZCI6MX0.9RQn5AMXg-YPbMGgsvBFCDku5tp3b1e4ThQVmhZlTY4
+Accept: application/json

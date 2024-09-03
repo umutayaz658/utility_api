@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
 from .models import CustomURL, QuickNote
@@ -15,6 +15,8 @@ from django.utils import timezone
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import HttpResponse
+from .utils import generate_qr_code
 
 
 # TOKEN VİEWS: STARTS
@@ -227,3 +229,24 @@ class UserReceivedNotesView(generics.ListAPIView):
         return QuickNote.objects.filter(send_to=self.request.user)
 
 # QUICK NOTE VİEWS: ENDS
+
+
+#QR CODE VİEWS: STARTS
+
+
+class QRCodeAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        data = request.data.get('data', '')
+        if not data:
+            return Response({"error": "No data provided"}, status=400)
+
+        qr_code_image = generate_qr_code(data)
+
+        response = HttpResponse(qr_code_image, content_type='image/png')
+        response['Content-Disposition'] = 'inline; filename="qrcode.png"'
+        return response
+
+
+#QR CODE VİEWS: ENDS
