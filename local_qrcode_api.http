@@ -3,5 +3,6 @@ POST http://localhost:8000/api/qr-code/
 Content-Type: application/json
 
 {
-  "data": "       "
+  "data": "www.google.com",
+  "download_link": true
 }
