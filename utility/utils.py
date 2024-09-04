@@ -1,3 +1,5 @@
+import uuid
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from base64 import b64encode, b64decode
@@ -42,10 +44,10 @@ def generate_qr_code(data):
     buffer = BytesIO()
     img.save(buffer, format='PNG')
     buffer.seek(0)
-    file_name = re.sub(r'[^\w.-]', '_', data)[:50] + '.png'
     from utility.models import QRCode
     qr_code_instance, created = QRCode.objects.get_or_create(data=data)
-    qr_code_instance.image.save(file_name, ContentFile(buffer.getvalue()), save=True)
+    filename = f"{uuid.uuid4().hex[:10]}.png"
+    qr_code_instance.image.save(filename, ContentFile(buffer.getvalue()), save=True)
 
-    return buffer.getvalue()
+    return buffer.getvalue(), filename
 

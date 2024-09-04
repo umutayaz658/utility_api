@@ -246,10 +246,9 @@ class QRCodeAPIView(APIView):
         if not data:
             return Response({"error": "No data provided"}, status=400)
 
-        qr_code_image = generate_qr_code(data)
+        qr_code_image, qr_code_filename = generate_qr_code(data)
 
         if download_link:
-            qr_code_filename = f"qr_code_{uuid.uuid4()}.png"
             qr_code_path = os.path.join("media/qr_codes", qr_code_filename)
 
             with open(qr_code_path, "wb") as qr_code_file:
