@@ -3,6 +3,5 @@ POST http://localhost:8000/api/qr-code/
 Content-Type: application/json
 
 {
-  "data": "www.youtube.com",
-  "download_link": true
+  "data": "       "
 }

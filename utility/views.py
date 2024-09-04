@@ -240,7 +240,7 @@ class QRCodeAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        data = request.data.get('data', '')
+        data = request.data.get('data', '').strip()
         download_link = request.data.get('download_link', False)
 
         if not data:
