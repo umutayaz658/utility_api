@@ -22,6 +22,9 @@ urlpatterns = [
 
     path('api/qr-code/', views.QRCodeAPIView.as_view(), name='qr_code_api'),
     path('api/download-qr-code/<str:filename>/', views.download_qr_code, name='download_qr_code'),
+
+    path('api/imagetopdf/', views.ImageToPDFView.as_view(), name='create_pdf'),
+    path('api/imagetopdf/download/<int:pk>/', views.DownloadPDFView.as_view(), name='download_pdf'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

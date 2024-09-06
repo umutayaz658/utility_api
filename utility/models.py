@@ -57,3 +57,9 @@ class QuickNote(models.Model):
 class QRCode(models.Model):
     data = models.CharField(max_length=255, unique=True)
     image = models.ImageField(upload_to='qr_codes/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class PDF(models.Model):
+    pdf = models.FileField(upload_to='pdfs/')
+    created_at = models.DateTimeField(auto_now_add=True)

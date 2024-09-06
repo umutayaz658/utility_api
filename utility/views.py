@@ -1,10 +1,16 @@
+import tempfile
+
+from django.core.files.base import ContentFile
+from fpdf import FPDF
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from .models import CustomURL, QuickNote
+from django.http import FileResponse
+from tools import settings
+from .models import CustomURL, QuickNote, PDF
 from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
     CustomTokenRefreshSerializer
 import random
@@ -17,11 +23,11 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http import HttpResponse
 from .utils import generate_qr_code
+from PIL import Image
 import os
-import uuid
 
 
-# TOKEN VİEWS: STARTS
+# TOKEN VIEWS: STARTS
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -45,10 +51,10 @@ class LogoutView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=400)
 
-# TOKEN VİEWS: ENDS
+# TOKEN VIEWS: ENDS
 
 
-# URL-SHORTENER VİEWS: STARTS.
+# URL-SHORTENER VIEWS: STARTS.
 
 
 def generate_short_url():
@@ -201,10 +207,10 @@ def link_expired(request):
     return render(request, 'utility/expired.html')
 
 
-# URL-SHORTENER VİEWS: ENDS
+# URL-SHORTENER VIEWS: ENDS
 
 
-# QUICK NOTE VİEWS: STARTS
+# QUICK NOTE VIEWS: STARTS
 
 
 class QuickNoteCreateView(generics.CreateAPIView):
@@ -230,10 +236,10 @@ class UserReceivedNotesView(generics.ListAPIView):
     def get_queryset(self):
         return QuickNote.objects.filter(send_to=self.request.user)
 
-# QUICK NOTE VİEWS: ENDS
+# QUICK NOTE VIEWS: ENDS
 
 
-#QR CODE VİEWS: STARTS
+#QR CODE VIEWS: STARTS
 
 
 class QRCodeAPIView(APIView):
@@ -274,4 +280,69 @@ def download_qr_code(request, filename):
         return response
 
 
-#QR CODE VİEWS: ENDS
+# QR CODE VIEWS: ENDS
+
+
+# IMAGE TO PDF VIEWS: STARTS
+
+
+class ImageToPDFView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        image_paths = request.data.getlist('image_paths')
+
+        if not image_paths:
+            return Response({'error': 'Lütfen en az bir resim dosyası belirtin.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        images = []
+        try:
+            for path in image_paths:
+                image = Image.open(path)
+                images.append(image)
+        except Exception as e:
+            return Response({'error': f'Resim dosyalarını açarken bir hata oluştu: {e}'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        pdf = FPDF()
+
+        for image in images:
+            image = image.convert('RGB')
+
+            # Geçici bir dosya yolu oluştur
+            with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_image:
+                image.save(temp_image.name)  # Geçici dosyaya kaydet
+                pdf.add_page()
+                pdf.image(temp_image.name, x=0, y=0, w=210, h=297)  # Geçici dosyadan PDF'e ekle
+
+        # PDF'yi geçici bir dosyaya kaydet
+        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_pdf:
+            pdf.output(temp_pdf.name)
+            temp_pdf.seek(0)
+
+            # PDF'yi ContentFile'a dönüştür ve veritabanına kaydet
+            with open(temp_pdf.name, 'rb') as pdf_file:
+                pdf_content = pdf_file.read()
+
+            pdf_model = PDF()
+            pdf_model.pdf.save("output.pdf", ContentFile(pdf_content))
+            pdf_model.save()
+
+        download_url = request.build_absolute_uri(f'/api/imagetopdf/download/{pdf_model.id}/')
+        return Response({'download_url': download_url}, status=status.HTTP_201_CREATED)
+
+
+class DownloadPDFView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, pk, *args, **kwargs):
+        try:
+            pdf = PDF.objects.get(pk=pk)
+        except PDF.DoesNotExist:
+            return Response({'error': 'PDF bulunamadı.'}, status=status.HTTP_404_NOT_FOUND)
+
+        file_path = os.path.join(settings.MEDIA_ROOT, pdf.pdf.name)
+        return FileResponse(open(file_path, 'rb'), as_attachment=True)
+
+
+# IMAGE TO PDF VIEWS: ENDS

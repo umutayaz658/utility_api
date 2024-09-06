@@ -5,3 +5,5 @@ djangorestframework~=3.15.2
 postgres
 pycryptodome
 djangorestframework-simplejwt
+Pillow
+fpdf

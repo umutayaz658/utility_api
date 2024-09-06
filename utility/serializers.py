@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomURL, QuickNote, QRCode
+from .models import CustomURL, QuickNote, PDF
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from .utils import AESUtil
@@ -77,7 +77,7 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
     pass
 
 
-class QRCodeSerializer(serializers.ModelSerializer):
+class PDFSerializer(serializers.ModelSerializer):
     class Meta:
-        model = QRCode
-        fields = ['id', 'data', 'qr_code_image']
+        model = PDF
+        fields = ['pdf', 'created_at']

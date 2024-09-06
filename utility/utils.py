@@ -1,5 +1,4 @@
 import uuid
-
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from base64 import b64encode, b64decode
@@ -7,7 +6,6 @@ import os
 import qrcode
 from io import BytesIO
 from django.core.files.base import ContentFile
-import re
 
 
 class AESUtil:
@@ -50,4 +48,6 @@ def generate_qr_code(data):
     qr_code_instance.image.save(filename, ContentFile(buffer.getvalue()), save=True)
 
     return buffer.getvalue(), filename
+
+
 
