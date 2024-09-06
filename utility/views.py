@@ -309,11 +309,18 @@ class ImageToPDFView(APIView):
         for image in images:
             image = image.convert('RGB')
 
+            width, height = image.size
+            width_mm = width * 0.264583
+            height_mm = (height * 0.264583) * 210 / width_mm
+            print(height_mm)
+            page_height = 297
+            y_position = (page_height - height_mm) / 2
+
             # Geçici bir dosya yolu oluştur
             with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_image:
                 image.save(temp_image.name)  # Geçici dosyaya kaydet
                 pdf.add_page()
-                pdf.image(temp_image.name, x=0, y=0, w=210, h=297)  # Geçici dosyadan PDF'e ekle
+                pdf.image(temp_image.name, x=0, y=y_position, w=210, h=height_mm)  # Geçici dosyadan PDF'e ekle
 
         # PDF'yi geçici bir dosyaya kaydet
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_pdf:
