@@ -1,7 +1,7 @@
 ### Create a New URL
 POST http://167.71.39.190:8000/api/create_short_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODY0Mjc4LCJpYXQiOjE3MjU4NjA2NzgsImp0aSI6IjE0ZTdlMWM2ZjkwODRjMGViZGQxMGRmMjIxMGZkNmY5IiwidXNlcl9pZCI6MX0.9GCe47tbfFrpUSjMpGIBeCcThqrQ1YHBEdIh_r2kI2w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODY3NTMzLCJpYXQiOjE3MjU4NjM5MzMsImp0aSI6Ijk3MThiYTllZGYwNDRlNjVhM2M4YjFlNmQ1YzNlZDA1IiwidXNlcl9pZCI6MX0.BIxdOiYFqMaKSuA9U40xYofEHtDk4SFrmfXgLHxpvXc
 
 {
   "long_url": "http://www.google.com",
@@ -40,9 +40,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 }
 
 ### Delete URL
-PUT http://167.71.39.190:8000/api/delete/4rhlxB/
+PUT http://167.71.39.190:8000/api/delete/Gzf9OP/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODY0Mjc4LCJpYXQiOjE3MjU4NjA2NzgsImp0aSI6IjE0ZTdlMWM2ZjkwODRjMGViZGQxMGRmMjIxMGZkNmY5IiwidXNlcl9pZCI6MX0.9GCe47tbfFrpUSjMpGIBeCcThqrQ1YHBEdIh_r2kI2w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODY3NTMzLCJpYXQiOjE3MjU4NjM5MzMsImp0aSI6Ijk3MThiYTllZGYwNDRlNjVhM2M4YjFlNmQ1YzNlZDA1IiwidXNlcl9pZCI6MX0.BIxdOiYFqMaKSuA9U40xYofEHtDk4SFrmfXgLHxpvXc
 
 {
   "is_deleted": true

@@ -1,5 +1,6 @@
 import tempfile
 
+import pytz
 from django.core.files.base import ContentFile
 from fpdf import FPDF
 from rest_framework.response import Response
@@ -190,6 +191,8 @@ def update_validity_period(request, short_url):
 
     try:
         new_validity_period = timezone.datetime.fromisoformat(validity_period.replace('Z', '+00:00'))
+        if timezone.is_naive(new_validity_period):
+            new_validity_period = timezone.make_aware(new_validity_period, timezone=pytz.UTC)
     except ValueError:
         return Response({'error': 'Invalid date format for "validity_period"'}, status=status.HTTP_400_BAD_REQUEST)
 
