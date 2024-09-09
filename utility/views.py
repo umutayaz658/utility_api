@@ -157,6 +157,27 @@ def update_url_active_status(request, short_url):
 
 
 @api_view(['PUT'])
+def delete_url(request, short_url):
+    if not request.user.is_authenticated:
+        return Response({'detail': 'Authentication credentials were not provided.'},
+                        status=status.HTTP_401_UNAUTHORIZED)
+    try:
+        custom_url = CustomURL.objects.get(short_url=short_url)
+    except CustomURL.DoesNotExist:
+        return Response({'error': 'URL not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    is_deleted = request.data.get('is_deleted', None)
+
+    if is_deleted is None:
+        return Response({'error': '"is_deleted" field is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    custom_url.is_deleted = is_deleted
+    custom_url.save()
+
+    return Response({'message': 'URL deleted successfully'}, status=status.HTTP_200_OK)
+
+
+@api_view(['PUT'])
 def update_validity_period(request, short_url):
     if not request.user.is_authenticated:
         return Response({'detail': 'Authentication credentials were not provided.'},

@@ -1,7 +1,7 @@
 ### Create a New URL
 POST http://localhost:8000/api/create_short_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1Mzk3MDE5LCJpYXQiOjE3MjUzOTM0MTksImp0aSI6IjA4YWQ1MTdkNDdhNjRkN2RiMjBmMDY2ZGFhN2QwZDAwIiwidXNlcl9pZCI6MX0.D_KZZv32omiaoTKeqJ1CY2nchAFrlLvlQ6X19wSZgmw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODYzOTY5LCJpYXQiOjE3MjU4NjAzNjksImp0aSI6ImI3YjdhYjRmOGJlYjQ1ODI4ZTlhZmFlNTJiMDliYTViIiwidXNlcl9pZCI6MX0.k_YLDiGBse2Nv1cc9vE0W31kArWWHq3f7qzFariBMNo
 
 {
   "long_url": "http://www.google.com",
@@ -37,6 +37,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 
 {
   "validity_period": "2024-09-03T12:00:00Z"
+}
+
+### Delete URL
+PUT http://localhost:8000/api/delete/nQZqVx/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODYzOTY5LCJpYXQiOjE3MjU4NjAzNjksImp0aSI6ImI3YjdhYjRmOGJlYjQ1ODI4ZTlhZmFlNTJiMDliYTViIiwidXNlcl9pZCI6MX0.k_YLDiGBse2Nv1cc9vE0W31kArWWHq3f7qzFariBMNo
+
+{
+  "is_deleted": true
 }
 
 ### List All URLs
