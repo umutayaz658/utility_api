@@ -7,3 +7,4 @@ pycryptodome
 djangorestframework-simplejwt
 Pillow
 fpdf
+pytz
