@@ -279,7 +279,7 @@ class QRCodeAPIView(APIView):
         qr_code_image, qr_code_filename = generate_qr_code(data)
 
         if download_link:
-            qr_code_path = os.path.join("app/media/qr_codes", qr_code_filename)
+            qr_code_path = os.path.join("media/qr_codes", qr_code_filename)
 
             with open(qr_code_path, "wb") as qr_code_file:
                 qr_code_file.write(qr_code_image)
