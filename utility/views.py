@@ -340,18 +340,15 @@ class ImageToPDFView(APIView):
             page_height = 297
             y_position = (page_height - height_mm) / 2
 
-            # Geçici bir dosya yolu oluştur
             with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as temp_image:
-                image.save(temp_image.name)  # Geçici dosyaya kaydet
+                image.save(temp_image.name)
                 pdf.add_page()
-                pdf.image(temp_image.name, x=0, y=y_position, w=210, h=height_mm)  # Geçici dosyadan PDF'e ekle
+                pdf.image(temp_image.name, x=0, y=y_position, w=210, h=height_mm)
 
-        # PDF'yi geçici bir dosyaya kaydet
         with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as temp_pdf:
             pdf.output(temp_pdf.name)
             temp_pdf.seek(0)
 
-            # PDF'yi ContentFile'a dönüştür ve veritabanına kaydet
             with open(temp_pdf.name, 'rb') as pdf_file:
                 pdf_content = pdf_file.read()
 
