@@ -1,7 +1,7 @@
 ### Create a New URL
 POST http://167.71.39.190:8000/api/create_short_url/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1ODY3NTMzLCJpYXQiOjE3MjU4NjM5MzMsImp0aSI6Ijk3MThiYTllZGYwNDRlNjVhM2M4YjFlNmQ1YzNlZDA1IiwidXNlcl9pZCI6MX0.BIxdOiYFqMaKSuA9U40xYofEHtDk4SFrmfXgLHxpvXc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2MDM3OTc1LCJpYXQiOjE3MjU5NTE1NzUsImp0aSI6ImFkY2NhYjE0NTMzNDQ0NjNhZjRjNTUyNmI5YWJlNjE2IiwidXNlcl9pZCI6MX0.OuhZJNhF3YFB6P2DoHJ4_hAzTgryo7Ly6CTbKQf37WY
 
 {
   "long_url": "http://www.google.com",
