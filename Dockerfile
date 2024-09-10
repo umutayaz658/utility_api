@@ -32,9 +32,9 @@ RUN adduser \
     appuser
 
 # Create necessary directories with appropriate permissions
-RUN mkdir -p /app/media/qr_codes \
-    && chown -R appuser:appuser /app/media \
-    && chmod -R 755 /app/media
+RUN mkdir -p /media/qr_codes \
+    && chown -R appuser:appuser /media \
+    && chmod -R 755 /media
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
