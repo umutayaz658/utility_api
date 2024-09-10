@@ -1,5 +1,4 @@
 import tempfile
-
 import pytz
 from django.core.files.base import ContentFile
 from fpdf import FPDF

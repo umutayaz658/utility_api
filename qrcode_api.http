@@ -3,6 +3,6 @@ POST http://167.71.39.190:8000/api/qr-code/
 Content-Type: application/json
 
 {
-  "data": "www.youtube.com",
+  "data": "www.google.com",
   "download_link": false
 }

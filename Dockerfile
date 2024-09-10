@@ -36,6 +36,9 @@ RUN mkdir -p /media/qr_codes \
     && chown -R appuser:appuser /media \
     && chmod -R 755 /media
 
+RUN mkdir -p /media/pdfs \
+    && chown -R appuser:appuser /media \
+    && chmod -R 755 /media
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
 # Leverage a bind mount to requirements.txt to avoid having to copy them into
