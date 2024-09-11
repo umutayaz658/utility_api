@@ -264,6 +264,8 @@ class UserReceivedNotesView(generics.ListAPIView):
 
 
 class UserAutocompleteView(View):
+    permission_classes = [AllowAny]
+
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q', '')
         users = User.objects.filter(username__istartswith=query)[:10] if query else []
