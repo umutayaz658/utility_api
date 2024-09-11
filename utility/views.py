@@ -264,9 +264,7 @@ class UserReceivedNotesView(generics.ListAPIView):
         return QuickNote.objects.filter(send_to=self.request.user)
 
 
-@csrf_exempt
 class UserAutocompleteView(View):
-    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q', '')
