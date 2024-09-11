@@ -1,7 +1,7 @@
 ###Create a NOTE
 POST http://167.71.39.190:8000/api/notes/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjcwOTcyLCJpYXQiOjE3MjUyNjczNzIsImp0aSI6IjE2OGZmYzFlNzM5NzQ5MmJiZjQ1Y2NkMjg1YjM4MmNkIiwidXNlcl9pZCI6Mn0.6611IPplKirxdX-S4Mbk2AnlAn1crLimgIzLt_KpdSE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2MDkxMjg0LCJpYXQiOjE3MjYwMDQ4ODQsImp0aSI6ImVjMzdhZWNhYTg2MzRlMmM5MDgzYzRkZWFhYTY4NmFhIiwidXNlcl9pZCI6MX0.pvKHNkOFs0q5709LbVAkM1Q45RI8vTWbxOkoD4-6n0w
 
 {
   "text": "Hello, It's me.",

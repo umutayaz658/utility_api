@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from django.http import FileResponse
+from django.http import FileResponse, JsonResponse
 from tools import settings
 from .models import CustomURL, QuickNote, PDF
 from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
@@ -25,6 +25,9 @@ from django.http import HttpResponse
 from .utils import generate_qr_code
 from PIL import Image
 import os
+from django.views import View
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
 
 
 # TOKEN VIEWS: STARTS
@@ -258,6 +261,14 @@ class UserReceivedNotesView(generics.ListAPIView):
 
     def get_queryset(self):
         return QuickNote.objects.filter(send_to=self.request.user)
+
+
+class UserAutocompleteView(View):
+    def get(self, request, *args, **kwargs):
+        query = request.GET.get('q', '')
+        users = User.objects.filter(username__istartswith=query)[:10] if query else []
+        html = render_to_string('partials/user_list.html', {'users': users})
+        return JsonResponse({'html': html}, status=200)
 
 # QUICK NOTE VIEWS: ENDS
 

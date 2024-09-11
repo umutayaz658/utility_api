@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/notes/', views.QuickNoteCreateView.as_view(), name='create_note'),
     path('api/notes/sent/', views.UserSentNotesView.as_view(), name='user-sent-notes'),
     path('api/notes/received/', views.UserReceivedNotesView.as_view(), name='user-received-notes'),
+    path('autocomplete/users/', views.UserAutocompleteView.as_view(), name='user_autocomplete_api'),
 
     path('api/token/', views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', views.CustomTokenRefreshView.as_view(), name='token_refresh'),
