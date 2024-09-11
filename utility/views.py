@@ -1,6 +1,7 @@
 import tempfile
 import pytz
 from django.core.files.base import ContentFile
+from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF
 from rest_framework.response import Response
 from rest_framework import status
@@ -263,6 +264,7 @@ class UserReceivedNotesView(generics.ListAPIView):
         return QuickNote.objects.filter(send_to=self.request.user)
 
 
+@csrf_exempt
 class UserAutocompleteView(View):
     permission_classes = [AllowAny]
 
