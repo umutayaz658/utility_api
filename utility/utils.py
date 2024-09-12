@@ -28,6 +28,7 @@ class AESUtil:
         return pt.decode('utf-8')
 
 
+
 def generate_qr_code(data):
     qr = qrcode.QRCode(
         version=1,

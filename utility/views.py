@@ -1,7 +1,6 @@
 import tempfile
 import pytz
 from django.core.files.base import ContentFile
-from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from django.http import FileResponse, JsonResponse
+from django.http import FileResponse
 from tools import settings
 from .models import CustomURL, QuickNote, PDF
 from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
@@ -26,9 +25,7 @@ from django.http import HttpResponse
 from .utils import generate_qr_code
 from PIL import Image
 import os
-from django.views import View
 from django.contrib.auth.models import User
-from django.template.loader import render_to_string
 
 
 # TOKEN VIEWS: STARTS
