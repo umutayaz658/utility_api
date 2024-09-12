@@ -264,15 +264,21 @@ class UserReceivedNotesView(generics.ListAPIView):
         return QuickNote.objects.filter(send_to=self.request.user)
 
 
-class UserAutocompleteView(View):
+class UserAutocompleteView(generics.ListAPIView):
     permission_classes = [AllowAny]
+    queryset = User.objects.all()
+    pagination_class = None
 
-    def get(self, request, *args, **kwargs):
-        query = request.GET.get('q', '')
-        users = User.objects.filter(username__istartswith=query)[:10] if query else []
-        # HTML template'i kullanarak dönecek veriyi oluştur
-        html = render_to_string('partials/user_list.html', {'users': users})
-        return JsonResponse({'html': html}, status=200)
+    def get_queryset(self):
+        query = self.request.GET.get('q', '')
+        if query:
+            return User.objects.filter(username__istartswith=query)[:10]
+        return User.objects.none()
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        user_list = [{'username': user.username} for user in queryset]
+        return Response(user_list)
 
 # QUICK NOTE VIEWS: ENDS
 
