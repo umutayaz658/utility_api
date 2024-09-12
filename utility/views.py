@@ -266,7 +266,6 @@ class UserReceivedNotesView(generics.ListAPIView):
 
 class UserAutocompleteView(generics.ListAPIView):
     permission_classes = [AllowAny]
-    queryset = User.objects.all()
     pagination_class = None
 
     def get_queryset(self):
@@ -277,8 +276,8 @@ class UserAutocompleteView(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        user_list = [{'username': user.username} for user in queryset]
-        return Response(user_list)
+        html = render_to_string('partials/user_list.html', {'users': queryset})
+        return Response({'html': html})
 
 # QUICK NOTE VIEWS: ENDS
 
