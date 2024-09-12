@@ -270,7 +270,7 @@ class UserAutocompleteView(generics.ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        query = self.request.GET.get('q', '')
+        query = self.request.GET.get('send_to', '')
         if query:
             return User.objects.filter(username__istartswith=query)[:10]
         return User.objects.none()
