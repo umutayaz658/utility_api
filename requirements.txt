@@ -8,3 +8,4 @@ djangorestframework-simplejwt
 Pillow
 fpdf
 pytz
+django-cors-headers
