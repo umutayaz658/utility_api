@@ -68,7 +68,6 @@ CORS_ALLOWED_HEADERS = [
     "authorization",
     "x-requested-with",
     "hx-request",
-    "hx-trigger",
     "hx-target",
     "hx-current-url",
 ]
