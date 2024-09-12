@@ -1,3 +1,7 @@
-<div class="list-group" id="user-list" style="max-height: 200px; overflow-y: auto;">
-    {{ html|safe }}
-</div>
+{% for user in users %}
+    <a href="#" class="list-group-item list-group-item-action" hx-on="click: setUsername('{{ user.username }}')">
+        {{ user.username }}
+    </a>
+{% empty %}
+    <p class="list-group-item">No users found.</p>
+{% endfor %}
