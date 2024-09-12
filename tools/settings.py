@@ -63,15 +63,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_HEADERS = [
-    "content-type",
-    "authorization",
-    "x-requested-with",
-    "hx-request",
-    "hx-trigger",
-    "hx-target",
-    "hx-current-url",
-]
+CORS_ALLOWED_HEADERS = ['*']
 
 ROOT_URLCONF = 'tools.urls'
 
