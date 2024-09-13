@@ -38,6 +38,7 @@ class QuickNoteManager(models.Manager):
             created_by=created_by,
             send_to=send_to,
             text=f"{iv}:{encrypted_text}"
+
         )
 
     def get_decrypted_text(self, note):
@@ -51,7 +52,6 @@ class QuickNote(models.Model):
     send_to = models.ForeignKey(User, related_name='received_notes', null=True, blank=True, on_delete=models.SET_NULL)
     text = models.TextField()
 
-    objects = QuickNoteManager()
 
 
 class QRCode(models.Model):
