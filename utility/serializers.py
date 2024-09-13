@@ -29,7 +29,7 @@ class QuickNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuickNote
-        fields = ['created_at', 'created_by', 'send_to', 'text']
+        fields = ['id', 'created_at', 'created_by', 'send_to', 'text']
         read_only_fields = ['created_by']
 
     def validate(self, data):
