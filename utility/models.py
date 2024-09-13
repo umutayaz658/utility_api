@@ -30,22 +30,6 @@ class CustomURL(models.Model):
         return timezone.now() > self.validity_period
 
 
-class QuickNoteManager(models.Manager):
-    def create_note(self, created_by, text, send_to=None):
-        iv, encrypted_text = aes_util.encrypt(text)
-        return self.create(
-            created_at=timezone.now(),
-            created_by=created_by,
-            send_to=send_to,
-            text=f"{iv}:{encrypted_text}"
-
-        )
-
-    def get_decrypted_text(self, note):
-        iv, encrypted_text = note.text.split(':')
-        return aes_util.decrypt(iv, encrypted_text)
-
-
 class QuickNote(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
