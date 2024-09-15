@@ -29,7 +29,7 @@ class QuickNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuickNote
-        fields = ['id', 'created_at', 'created_by', 'send_to', 'text']
+        fields = ['id', 'created_at', 'created_by', 'send_to', 'text', 'file']  # 'file' alanı eklendi
         read_only_fields = ['created_by']
 
     def validate(self, data):
@@ -45,13 +45,15 @@ class QuickNoteSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         send_to = validated_data.get('send_to')
         text = validated_data.get('text')
+        file = validated_data.get('file')  # Dosya alma işlemi
 
         iv, encrypted_text = aes_util.encrypt(text)
 
         note = QuickNote.objects.create(
             created_by=self.context['request'].user,
             send_to=send_to,
-            text=f"{iv}:{encrypted_text}"
+            text=f"{iv}:{encrypted_text}",
+            file=file  # Dosya kaydetme işlemi
         )
         return note
 
@@ -62,7 +64,10 @@ class QuickNoteSerializer(serializers.ModelSerializer):
         ret['text'] = decrypted_text
         ret['created_by'] = instance.created_by.username
         ret['send_to'] = instance.send_to.username
+        if instance.file:
+            ret['file'] = instance.file.url  # Dosya URL'sini ekleme
         return ret
+
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

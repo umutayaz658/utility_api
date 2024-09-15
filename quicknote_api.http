@@ -1,21 +1,21 @@
 ###Create a NOTE
 POST http://167.71.39.190:8000/api/notes/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2MDkxMjg0LCJpYXQiOjE3MjYwMDQ4ODQsImp0aSI6ImVjMzdhZWNhYTg2MzRlMmM5MDgzYzRkZWFhYTY4NmFhIiwidXNlcl9pZCI6MX0.pvKHNkOFs0q5709LbVAkM1Q45RI8vTWbxOkoD4-6n0w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2MzEzNzUyLCJpYXQiOjE3MjYyMjczNTIsImp0aSI6ImU3ZDYxNjFlZDIwYTQyM2VhNmVhZGU5MjIyYmQ1ZTA3IiwidXNlcl9pZCI6MX0.trFXtontkThL1xob2uOU7qOWiltM8whDG-GZLBzkybg
 
 {
   "text": "Hello, It's me.",
-  "send_to": "user"
+  "send_to": "appuser"
 }
 
 
 ###View Sent Notes
 GET http://167.71.39.190:8000/api/notes/sent/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjcwODE3LCJpYXQiOjE3MjUyNjcyMTcsImp0aSI6IjY4YzQ0NmVmODI5ODQwZTI4MWVkNTVjODEwNjliOWE3IiwidXNlcl9pZCI6MX0.9RQn5AMXg-YPbMGgsvBFCDku5tp3b1e4ThQVmhZlTY4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2NDg4NTE4LCJpYXQiOjE3MjY0MDIxMTgsImp0aSI6IjA2NTZiZWFkNjE4NjRlZGFiYzBmNjg5ZDIwZTMxMzcxIiwidXNlcl9pZCI6MX0.T_tDEQn6S3ILnvRPbDsaMeTaKocPrff4j2VRP--LDM8
 Accept: application/json
 
 
 ###View Received Notes
 GET http://167.71.39.190:8000/api/notes/received/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI1MjcwODE3LCJpYXQiOjE3MjUyNjcyMTcsImp0aSI6IjY4YzQ0NmVmODI5ODQwZTI4MWVkNTVjODEwNjliOWE3IiwidXNlcl9pZCI6MX0.9RQn5AMXg-YPbMGgsvBFCDku5tp3b1e4ThQVmhZlTY4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI2MzEzNzUyLCJpYXQiOjE3MjYyMjczNTIsImp0aSI6ImU3ZDYxNjFlZDIwYTQyM2VhNmVhZGU5MjIyYmQ1ZTA3IiwidXNlcl9pZCI6MX0.trFXtontkThL1xob2uOU7qOWiltM8whDG-GZLBzkybg
 Accept: application/json
