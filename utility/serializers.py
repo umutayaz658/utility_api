@@ -33,10 +33,6 @@ class QuickNoteSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_by']
 
     def validate(self, data):
-        # Kullanıcı en azından text veya file göndermeli
-        if not data.get('text') and not data.get('file'):
-            raise serializers.ValidationError("You must provide either text or file.")
-
         send_to_username = data.get('send_to')
         try:
             send_to = User.objects.get(username=send_to_username)
@@ -44,42 +40,39 @@ class QuickNoteSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'send_to': 'User with this username does not exist.'})
 
         data['send_to'] = send_to
+
+        # Check if text is None and replace with empty string if necessary
+        if 'text' in data and data['text'] is None:
+            data['text'] = ''
+
         return data
 
     def create(self, validated_data):
         send_to = validated_data.get('send_to')
-        text = validated_data.get('text')
+        text = validated_data.get('text', '')
         file = validated_data.get('file')
 
-        # Eğer text varsa şifrele
-        if text:
-            iv, encrypted_text = aes_util.encrypt(text)
-            text = f"{iv}:{encrypted_text}"
+        iv, encrypted_text = aes_util.encrypt(text)
 
-        # Yeni not oluştur
         note = QuickNote.objects.create(
             created_by=self.context['request'].user,
             send_to=send_to,
-            text=text,
+            text=f"{iv}:{encrypted_text}",
             file=file
         )
         return note
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        if instance.text:
-            iv, encrypted_text = instance.text.split(':')
-            decrypted_text = aes_util.decrypt(iv, encrypted_text)
-            ret['text'] = decrypted_text
-
+        iv, encrypted_text = instance.text.split(':')
+        decrypted_text = aes_util.decrypt(iv, encrypted_text)
+        ret['text'] = decrypted_text
         ret['created_by'] = instance.created_by.username
         ret['send_to'] = instance.send_to.username
-
-        # Eğer dosya varsa, indirme URL'sini ekle
         if instance.file:
             ret['file_download_url'] = f"http://167.71.39.190:8000/api/notes/download/{instance.id}/"
-
         return ret
+
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
