@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from django.http import FileResponse
+from django.http import FileResponse, Http404
 from tools import settings
 from .models import CustomURL, QuickNote, PDF
 from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
@@ -261,6 +261,25 @@ class UserReceivedNotesView(generics.ListAPIView):
         return QuickNote.objects.filter(send_to=self.request.user)
 
 
+class QuickNoteFileDownloadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, note_id, *args, **kwargs):
+        note = get_object_or_404(QuickNote, id=note_id, created_by=request.user)
+
+        if note.file:
+            file_path = note.file.path
+            if os.path.exists(file_path):
+                with open(file_path, 'rb') as file:
+                    response = HttpResponse(file.read(), content_type='application/octet-stream')
+                    response['Content-Disposition'] = f'attachment; filename={os.path.basename(file_path)}'
+                    return response
+            else:
+                raise Http404("File does not exist.")
+        else:
+            raise Http404("No file attached to this note.")
+
+
 class UserAutocompleteView(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
@@ -334,7 +353,7 @@ class ImageToPDFView(APIView):
         image_paths = request.data.getlist('image_paths')
 
         if not image_paths:
-            return Response({'error': 'Lütfen en az bir resim dosyası belirtin.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Select an image.'}, status=status.HTTP_400_BAD_REQUEST)
 
         images = []
         try:
@@ -342,7 +361,7 @@ class ImageToPDFView(APIView):
                 image = Image.open(path)
                 images.append(image)
         except Exception as e:
-            return Response({'error': f'Resim dosyalarını açarken bir hata oluştu: {e}'},
+            return Response({'error': f'Error: {e}'},
                             status=status.HTTP_400_BAD_REQUEST)
 
         pdf = FPDF()

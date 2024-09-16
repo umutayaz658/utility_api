@@ -20,6 +20,9 @@ class URLDetailSerializer(serializers.ModelSerializer):
                   'one_time_only', 'password', 'is_deleted']
 
 
+from django.conf import settings
+
+
 class QuickNoteSerializer(serializers.ModelSerializer):
     send_to = serializers.SlugRelatedField(
         slug_field='username',
@@ -45,7 +48,7 @@ class QuickNoteSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         send_to = validated_data.get('send_to')
         text = validated_data.get('text')
-        file = validated_data.get('file')  # Dosya alma işlemi
+        file = validated_data.get('file')
 
         iv, encrypted_text = aes_util.encrypt(text)
 
@@ -53,7 +56,7 @@ class QuickNoteSerializer(serializers.ModelSerializer):
             created_by=self.context['request'].user,
             send_to=send_to,
             text=f"{iv}:{encrypted_text}",
-            file=file  # Dosya kaydetme işlemi
+            file=file
         )
         return note
 
@@ -65,9 +68,8 @@ class QuickNoteSerializer(serializers.ModelSerializer):
         ret['created_by'] = instance.created_by.username
         ret['send_to'] = instance.send_to.username
         if instance.file:
-            ret['file'] = instance.file.url  # Dosya URL'sini ekleme
+            ret['file_download_url'] = f"{settings.SITE_URL}/api/notes/download/{instance.id}/"
         return ret
-
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
