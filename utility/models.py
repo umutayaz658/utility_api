@@ -34,7 +34,7 @@ class QuickNote(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     send_to = models.ForeignKey(User, related_name='received_notes', null=True, blank=True, on_delete=models.SET_NULL)
-    text = models.TextField()
+    text = models.TextField(null=True, blank=True)
     file = models.FileField(upload_to='uploads/', null=True, blank=True)
 
 
