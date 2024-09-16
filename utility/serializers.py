@@ -68,7 +68,7 @@ class QuickNoteSerializer(serializers.ModelSerializer):
         ret['created_by'] = instance.created_by.username
         ret['send_to'] = instance.send_to.username
         if instance.file:
-            ret['file_download_url'] = f"{settings.SITE_URL}/api/notes/download/{instance.id}/"
+            ret['file_download_url'] = f"http://167.71.39.190:8000/api/notes/download/{instance.id}/"
         return ret
 
 
