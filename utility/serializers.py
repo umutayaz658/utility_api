@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomURL, QuickNote, PDF
+from .models import CustomURL, QuickNote, PDF, File
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from .utils import AESUtil
@@ -20,16 +20,23 @@ class URLDetailSerializer(serializers.ModelSerializer):
                   'one_time_only', 'password', 'is_deleted']
 
 
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = ['id', 'file', 'uploaded_at']
+
+
 class QuickNoteSerializer(serializers.ModelSerializer):
     send_to = serializers.SlugRelatedField(
         slug_field='username',
         queryset=User.objects.all(),
         write_only=True
     )
+    files = FileSerializer(many=True, required=False)
 
     class Meta:
         model = QuickNote
-        fields = ['id', 'created_at', 'created_by', 'send_to', 'text', 'file']
+        fields = ['id', 'created_at', 'created_by', 'send_to', 'text', 'files']
         read_only_fields = ['created_by']
 
     def validate(self, data):
@@ -41,7 +48,6 @@ class QuickNoteSerializer(serializers.ModelSerializer):
 
         data['send_to'] = send_to
 
-        # Check if text is None and replace with empty string if necessary
         if 'text' in data and data['text'] is None:
             data['text'] = ''
 
@@ -50,16 +56,19 @@ class QuickNoteSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         send_to = validated_data.get('send_to')
         text = validated_data.get('text', '')
-        file = validated_data.get('file')
-
+        files_data = validated_data.pop('files', [])
         iv, encrypted_text = aes_util.encrypt(text)
 
         note = QuickNote.objects.create(
             created_by=self.context['request'].user,
             send_to=send_to,
             text=f"{iv}:{encrypted_text}",
-            file=file
         )
+
+        for file_data in files_data:
+            file_instance = File.objects.create(file=file_data['file'])
+            note.files.add(file_instance)
+
         return note
 
     def to_representation(self, instance):
@@ -69,10 +78,8 @@ class QuickNoteSerializer(serializers.ModelSerializer):
         ret['text'] = decrypted_text
         ret['created_by'] = instance.created_by.username
         ret['send_to'] = instance.send_to.username
-        if instance.file:
-            ret['file_download_url'] = f"http://167.71.39.190:8000/api/notes/download/{instance.id}/"
+        ret['files'] = FileSerializer(instance.files.all(), many=True).data  # Çoklu dosyaları döndürme
         return ret
-
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
