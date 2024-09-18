@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "username": "user",
-  "password": "1903baba"
+  "password": "123abc"
 }
 
 ### Refresh Token

@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponseForbidden
 from tools import settings
 from .models import CustomURL, QuickNote, PDF
 from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
@@ -205,25 +205,59 @@ def update_validity_period(request, short_url):
     return Response({'message': 'Validity period updated successfully'}, status=status.HTTP_200_OK)
 
 
+MAX_ATTEMPTS = 5  # Maksimum deneme hakkı
+
+
 def redirect_to_long_url(request, short_url):
     custom_url = get_object_or_404(CustomURL, short_url=short_url)
+
+    # Linkin süresi dolmuş veya aktif değilse, link_expired sayfasına yönlendir
     if custom_url.is_expired or not custom_url.is_active:
         return redirect('link_expired')
+
+    # Şifre koruması varsa
     if custom_url.password:
+        # İlk kez giriş yapılıyorsa oturumda (session) deneme hakkını başlat
+        if 'attempts_left' not in request.session:
+            request.session['attempts_left'] = MAX_ATTEMPTS
+
+        # Eğer deneme hakkı sıfıra düşmüşse, 403 sayfasını göster
+        if request.session['attempts_left'] <= 0:
+            return HttpResponseForbidden("<h1>403 Forbidden</h1><p>You've used all your attempts.</p>")
+
+        # Kullanıcı POST isteğiyle şifre girmişse
         if request.method == 'POST':
             entered_password = request.POST.get('password', '')
+            # Şifre doğruysa
             if check_password(entered_password, custom_url.password):
+                # Eğer one_time_only ise linki devre dışı bırak
                 if custom_url.one_time_only:
                     custom_url.is_active = False
                     custom_url.save()
+                # Deneme hakkını sıfırla
+                request.session['attempts_left'] = MAX_ATTEMPTS
+                # Kullanıcıyı long_url'ye yönlendir
                 return redirect(custom_url.long_url)
             else:
-                return render(request, 'utility/security.html', context={"msg": "Invalid Password",
-                                                                         "short_url": short_url})
-        return render(request, 'utility/security.html', context={"msg": "", "short_url": short_url})
+                # Şifre yanlışsa deneme hakkını bir azalt
+                request.session['attempts_left'] -= 1
+                return render(request, 'utility/security.html', context={
+                    "msg": f"Invalid Password. Attempts remaining: {request.session['attempts_left']}",
+                    "short_url": short_url
+                })
+
+        # GET isteğiyle sayfa yüklendiğinde deneme hakkını gösterecek
+        return render(request, 'utility/security.html', context={
+            "msg": f"Attempts remaining: {request.session['attempts_left']}",
+            "short_url": short_url
+        })
+
+    # Eğer şifre yoksa ve one_time_only ise linki devre dışı bırak
     if custom_url.one_time_only:
         custom_url.is_active = False
         custom_url.save()
+
+    # Şifre yoksa doğrudan long_url'ye yönlendir
     return redirect(custom_url.long_url)
 
 
