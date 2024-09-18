@@ -9,3 +9,4 @@ Pillow
 fpdf
 pytz
 django-cors-headers
+django-axes
