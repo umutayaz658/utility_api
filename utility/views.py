@@ -263,7 +263,7 @@ class UserReceivedNotesView(generics.ListAPIView):
 
 class QuickNoteFileDownloadView(APIView):
     permission_classes = [AllowAny]
-    ##test
+
     def get(self, request, note_id, *args, **kwargs):
         note = get_object_or_404(QuickNote, id=note_id)
 
