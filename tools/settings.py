@@ -58,7 +58,7 @@ MIDDLEWARE = [
     'axes.middleware.AxesMiddleware',
 ]
 
-AXES_FAILURE_LIMIT = 5  # Başarısız giriş denemesi sayısı
+AXES_FAILURE_LIMIT = 2
 AXES_COOLOFF_TIME = 1
 
 AUTHENTICATION_BACKENDS = [

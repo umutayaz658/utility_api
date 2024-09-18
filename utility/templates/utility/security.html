@@ -14,10 +14,6 @@
             color: red;
             margin-top: 10px;
         }
-        .attempts-message {
-            color: black;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -31,12 +27,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-
         {% if msg %}
         <p class="error-message">{{ msg }}</p>
-        {% endif %}
-        {% if attempts_msg %}
-        <p class="attempts-message">{{ attempts_msg }}</p>
         {% endif %}
     </div>
 
