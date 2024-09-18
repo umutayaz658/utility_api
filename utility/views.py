@@ -222,7 +222,7 @@ def redirect_to_long_url(request, short_url):
             request.session['attempts_left'] = MAX_ATTEMPTS
 
         # Eğer deneme hakkı sıfıra düşmüşse, 403 sayfasını göster
-        if request.session['attempts_left'] <= 0:
+        if request.session['attempts_left'] < 1:
             return HttpResponseForbidden("<h1>403 Forbidden</h1><p>You've used all your attempts.</p>")
 
         # Kullanıcı POST isteğiyle şifre girmişse
@@ -242,13 +242,15 @@ def redirect_to_long_url(request, short_url):
                 # Şifre yanlışsa deneme hakkını bir azalt
                 request.session['attempts_left'] -= 1
                 return render(request, 'utility/security.html', context={
-                    "msg": f"Invalid Password. Attempts remaining: {request.session['attempts_left']}",
+                    "msg": "Invalid Password",
+                    "attempts_msg": f"Remaining Attempts: {request.session['attempts_left']}",
                     "short_url": short_url
                 })
 
         # GET isteğiyle sayfa yüklendiğinde deneme hakkını gösterecek
         return render(request, 'utility/security.html', context={
-            "msg": f"Attempts remaining: {request.session['attempts_left']}",
+            "msg": "",
+            "attempts_msg": f"Remaining Attempts: {request.session['attempts_left']}",
             "short_url": short_url
         })
 
