@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ]
 
 AXES_FAILURE_LIMIT = 3
-AXES_COOLOFF_TIME = 1
+AXES_COOLOFF_TIME = timedelta(minutes=5)
 
 AUTHENTICATION_BACKENDS = [
     'axes.backends.AxesBackend',
