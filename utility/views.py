@@ -205,10 +205,8 @@ def update_validity_period(request, short_url):
     return Response({'message': 'Validity period updated successfully'}, status=status.HTTP_200_OK)
 
 
-MAX_ATTEMPTS = 5  # Maksimum deneme hakkı
-
-
 def redirect_to_long_url(request, short_url):
+    MAX_ATTEMPTS = 5  # Maksimum deneme hakkı
     custom_url = get_object_or_404(CustomURL, short_url=short_url)
 
     # Linkin süresi dolmuş veya aktif değilse, link_expired sayfasına yönlendir
