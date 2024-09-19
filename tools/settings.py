@@ -55,16 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'axes.middleware.AxesMiddleware',
 ]
 
-AXES_FAILURE_LIMIT = 3
-AXES_COOLOFF_TIME = timedelta(minutes=5)
-
-AUTHENTICATION_BACKENDS = [
-    'axes.backends.AxesBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
