@@ -1,6 +1,7 @@
 import tempfile
 import pytz
 from django.core.files.base import ContentFile
+from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,7 +9,7 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import generics
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, JsonResponse
 from tools import settings
 from .models import CustomURL, QuickNote, PDF
 from .serializers import URLSerializer, URLDetailSerializer, QuickNoteSerializer, CustomTokenObtainPairSerializer, \
@@ -26,6 +27,53 @@ from .utils import generate_qr_code
 from PIL import Image
 import os
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+
+# USER VIEWS: STARTS
+
+
+@csrf_exempt
+def register_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            form = UserCreationForm(data)
+            if form.is_valid():
+                user = form.save()
+                return JsonResponse({'message': 'User created successfully'}, status=201)
+            return JsonResponse({'errors': form.errors}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON'}, status=400)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+
+@csrf_exempt
+def login_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            username = data.get('username')
+            password = data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return JsonResponse({'message': 'Login successful'}, status=200)
+            return JsonResponse({'message': 'Invalid credentials'}, status=401)
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Invalid JSON'}, status=400)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+
+@csrf_exempt
+def logout_view(request):
+    if request.method == 'POST':
+        logout(request)
+        return JsonResponse({'message': 'Logged out successfully'}, status=200)
+    return JsonResponse({'message': 'Invalid request method'}, status=405)
+
+
+# USER VIEWS: ENDS
 
 
 # TOKEN VIEWS: STARTS
