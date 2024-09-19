@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from rest_framework import serializers
 from .models import CustomURL, QuickNote, PDF
 from django.contrib.auth.models import User
@@ -14,13 +16,19 @@ class URLSerializer(serializers.ModelSerializer):
 
 
 class URLDetailSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
-    validity_period = serializers.DateTimeField(format="%Y-%m-%d %H:%M", required=False)
+    created_at = serializers.SerializerMethodField()
+    validity_period = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomURL
         fields = ['short_url', 'long_url', 'created_at', 'validity_period', 'created_by', 'is_active',
                   'one_time_only', 'password', 'is_deleted']
+
+    def get_created_at(self, obj):
+        return (obj.created_at - timedelta(hours=3)).strftime('%Y-%m-%d %H:%M')
+
+    def get_validity_period(self, obj):
+        return (obj.validity_period - timedelta(hours=3)).strftime('%Y-%m-%d %H:%M')
 
 
 class QuickNoteSerializer(serializers.ModelSerializer):
