@@ -4,9 +4,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('register/', views.register_view, name='register'),
-    path('login/', views.login_view, name='login'),
-    path('logout/', views.logout_view, name='logout'),
+    path('api/register/', views.register_view, name='register'),
+    path('api/login/', views.login_view, name='login'),
+    path('api/logout/', views.logout_view, name='logout'),
 
     path('api/create_short_url/', views.url_create_view, name='create_short_url'),
     path('api/urls/', views.URLDetailView.as_view(), name='url-list'),

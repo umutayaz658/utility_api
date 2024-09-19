@@ -38,14 +38,21 @@ def register_view(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            form = UserCreationForm(data)
-            if form.is_valid():
-                user = form.save()
-                return JsonResponse({'message': 'User created successfully'}, status=201)
-            return JsonResponse({'errors': form.errors}, status=400)
+            username = data.get('username')
+            password = data.get('password')
+
+            if not username or not password:
+                return JsonResponse({'error': 'Username and password are required'}, status=400)
+
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({'error': 'User already exists'}, status=400)
+
+            user = User.objects.create_user(username=username, password=password)
+            return JsonResponse({'message': 'User created successfully'}, status=201)
+
         except json.JSONDecodeError:
-            return JsonResponse({'message': 'Invalid JSON'}, status=400)
-    return JsonResponse({'message': 'Invalid request method'}, status=405)
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 @csrf_exempt
