@@ -25,10 +25,10 @@ class URLDetailSerializer(serializers.ModelSerializer):
                   'one_time_only', 'password', 'is_deleted']
 
     def get_created_at(self, obj):
-        return (obj.created_at - timedelta(hours=3)).strftime('%Y-%m-%d %H:%M')
+        return obj.created_at.strftime('%Y-%m-%d %H:%M')
 
     def get_validity_period(self, obj):
-        return (obj.validity_period - timedelta(hours=3)).strftime('%Y-%m-%d %H:%M')
+        return obj.validity_period.strftime('%Y-%m-%d %H:%M')
 
 
 class QuickNoteSerializer(serializers.ModelSerializer):
