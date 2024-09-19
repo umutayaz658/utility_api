@@ -14,6 +14,9 @@ class URLSerializer(serializers.ModelSerializer):
 
 
 class URLDetailSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
+    validity_period = serializers.DateTimeField(format="%Y-%m-%d %H:%M", required=False)
+
     class Meta:
         model = CustomURL
         fields = ['short_url', 'long_url', 'created_at', 'validity_period', 'created_by', 'is_active',
