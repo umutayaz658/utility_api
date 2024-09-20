@@ -293,7 +293,7 @@ def link_expired(request):
 
 class QuickNoteCreateView(generics.CreateAPIView):
     serializer_class = QuickNoteSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
