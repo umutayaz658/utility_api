@@ -3,7 +3,7 @@ POST http://167.71.39.190:8000/api/token/
 Content-Type: application/json
 
 {
-  "username": "user",
+  "username": "abc",
   "password": "123abc"
 }
 

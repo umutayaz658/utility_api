@@ -28,7 +28,6 @@ from PIL import Image
 import os
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 
 # USER VIEWS: STARTS
 
@@ -294,7 +293,7 @@ def link_expired(request):
 
 class QuickNoteCreateView(generics.CreateAPIView):
     serializer_class = QuickNoteSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
