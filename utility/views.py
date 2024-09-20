@@ -55,6 +55,7 @@ def register_view(request):
 
 
 @csrf_exempt
+@api_view(['POST'])
 def login_view(request):
     if request.method == 'POST':
         try:
