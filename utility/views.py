@@ -1,6 +1,5 @@
 import tempfile
 import pytz
-from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.views.decorators.csrf import csrf_exempt
 from fpdf import FPDF
@@ -118,7 +117,6 @@ def generate_short_url():
 
 
 @api_view(['POST'])
-@login_required(login_url='/login/')
 def url_create_view(request):
 
     if not request.user.is_authenticated:
