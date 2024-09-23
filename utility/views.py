@@ -54,21 +54,8 @@ def register_view(request):
     return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
-@csrf_exempt
-def login_view(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            username = data.get('username')
-            password = data.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return JsonResponse({'message': 'Login successful'}, status=200)
-            return JsonResponse({'message': 'Invalid credentials'}, status=401)
-        except json.JSONDecodeError:
-            return JsonResponse({'message': 'Invalid JSON'}, status=400)
-    return JsonResponse({'message': 'Invalid request method'}, status=405)
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 @csrf_exempt
@@ -80,34 +67,6 @@ def logout_view(request):
 
 
 # USER VIEWS: ENDS
-
-
-# TOKEN VIEWS: STARTS
-
-
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
-
-
-class CustomTokenRefreshView(TokenRefreshView):
-    serializer_class = CustomTokenRefreshSerializer
-
-
-class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-
-            return Response(status=205)
-        except Exception as e:
-            return Response({'error': str(e)}, status=400)
-
-
-# TOKEN VIEWS: ENDS
 
 
 # URL-SHORTENER VIEWS: STARTS.
