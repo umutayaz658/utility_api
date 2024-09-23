@@ -38,6 +38,8 @@ class QuickNoteSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
+    created_at = serializers.SerializerMethodField()
+
     class Meta:
         model = QuickNote
         fields = ['id', 'created_at', 'created_by', 'send_to', 'text', 'file']
@@ -72,6 +74,9 @@ class QuickNoteSerializer(serializers.ModelSerializer):
             file=file
         )
         return note
+
+    def get_created_at(self, obj):
+        return obj.created_at.strftime('%Y-%m-%d %H:%M')
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
