@@ -1,0 +1,21 @@
+###Create a NOTE
+POST http://167.71.39.190:8000/api/notes/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI3MTg1NzM3LCJpYXQiOjE3MjcxNTY5MzcsImp0aSI6ImFmOGVjNjk3MDYzYzQ4NjM4ZTQ3YjNhMDczNzJhNzc3IiwidXNlcl9pZCI6Nn0.Hp954YNrPydvDZ67ryuG_TmxwbYDmdaNT_5NIS-iFRo
+
+{
+  "text": "Hello, It's me.",
+  "send_to": "abc"
+}
+
+
+###View Sent Notes
+GET http://167.71.39.190:8000/api/notes/sent/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI3MTg1NzM3LCJpYXQiOjE3MjcxNTY5MzcsImp0aSI6ImFmOGVjNjk3MDYzYzQ4NjM4ZTQ3YjNhMDczNzJhNzc3IiwidXNlcl9pZCI6Nn0.Hp954YNrPydvDZ67ryuG_TmxwbYDmdaNT_5NIS-iFRo
+Accept: application/json
+
+
+###View Received Notes
+GET http://167.71.39.190:8000/api/notes/received/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI3MTg1NzM3LCJpYXQiOjE3MjcxNTY5MzcsImp0aSI6ImFmOGVjNjk3MDYzYzQ4NjM4ZTQ3YjNhMDczNzJhNzc3IiwidXNlcl9pZCI6Nn0.Hp954YNrPydvDZ67ryuG_TmxwbYDmdaNT_5NIS-iFRo
+Accept: application/json
